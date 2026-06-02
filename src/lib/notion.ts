@@ -1,7 +1,8 @@
 import { NotionAPI } from 'notion-client'
+import { cache } from 'react'
 
 const notion = new NotionAPI()
 
-export async function getPage(pageId: string) {
+export const getPage = cache(async (pageId: string) => {
   return notion.getPage(pageId)
-}
+})
