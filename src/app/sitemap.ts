@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pageIds = Object.entries(recordMap.block)
     .filter(
       ([id, block]) =>
-        block.value?.type === 'page' &&
+        (block as { value?: { type?: string } }).value?.type === 'page' &&
         id.replace(/-/g, '') !== ROOT_PAGE_ID
     )
     .map(([id]) => id.replace(/-/g, ''))
