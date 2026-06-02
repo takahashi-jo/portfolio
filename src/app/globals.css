@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* react-notion-x table fix:
+   The table is set to width:100vw by JS and align-self:center by CSS. When centered,
+   it overflows to the left into negative x coordinates — browsers cannot scroll there,
+   so the left side is permanently cut off.
+   Fix: make .notion-collection a scroll container anchored at the left. The table then
+   overflows rightward only (the scrollable direction). paddingLeft:0 aligns content
+   with the page text since the collection already starts at the page text indent. */
+.notion-collection:has(.notion-table) {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.notion-table-view {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
