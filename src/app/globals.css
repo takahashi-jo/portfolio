@@ -18,3 +18,12 @@
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+
+/* Hide default document icon (📃) in collection views.
+   PageTitle calls PageIcon without hideDefaultIcon=true, so the SVG fallback
+   always renders for pages with no explicit icon. Target the wrapper div
+   (notion-page-icon-inline) so the space collapses along with the icon. */
+.notion-collection-card-body .notion-page-icon-inline,
+.notion-table-view .notion-page-icon-inline {
+  display: none;
+}
