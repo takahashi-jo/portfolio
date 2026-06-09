@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: 'Jo Takahashi',
     template: '%s | Jo Takahashi',
   },
-  description: '高橋青（Jo Takahashi）のポートフォリオ。SRE・クラウドネイティブエンジニア。',
+  description: '高橋青（Jo Takahashi）のポートフォリオ。SRE・プラットフォームエンジニア。',
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
