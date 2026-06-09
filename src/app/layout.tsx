@@ -10,7 +10,7 @@ const siteUrl = 'https://jo-takahashi.me'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Jo Takahashi',
+    default: '高橋青 (Jo Takahashi)',
     template: '%s | Jo Takahashi',
   },
   description: '高橋青（Jo Takahashi）のポートフォリオ。SRE・プラットフォームエンジニア。',
