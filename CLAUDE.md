@@ -83,6 +83,15 @@ import 'prismjs/themes/prism-tomorrow.css'   // コードブロック
 
 `react-notion-x/src/styles.css` と `react-notion-x/styles.css` は同じファイル（package.json の exports エイリアス）。
 
+### フォント (Noto Sans JP)
+
+`next/font/google` で Noto Sans JP を読み込み、サイト全体に適用している（パッケージ追加は不要、Next.js 標準機能）。
+
+- **layout.tsx**: `Noto_Sans_JP({ subsets: ['latin'], weight: [...], variable: '--font-sans' })` を呼び、`<html className={fontSans.variable}>` で CSS 変数を注入。CSS 変数名は中立的に `--font-sans` としているため、**フォント変更は layout.tsx のフォント関数を差し替えるだけ**で済む（globals.css は触らない）
+- **globals.css**: `--notion-font`（react-notion-x が描画に使う変数）と `body` の font-family を `var(--font-sans)` で上書き
+
+**詳細度の注意（ハマりポイント）:** react-notion-x の `styles.css` は globals.css より**後に**インポートされ、`:root { --notion-font }` を再定義する。同じ詳細度の `:root` で上書きしても後勝ちで打ち消されるため、globals.css 側は **`html:root`（詳細度を上げる）** で宣言してインポート順に関係なく勝たせている。`:root` のままだと Notion 描画内容にフォントが効かない。
+
 ### 動的インポート (NotionPage.tsx)
 
 ```ts

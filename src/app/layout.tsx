@@ -1,9 +1,17 @@
 import type { Metadata } from 'next'
+import { Noto_Sans_JP } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
 import 'react-notion-x/src/styles.css'
 import 'prismjs/themes/prism-tomorrow.css'
+
+const fontSans = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  variable: '--font-sans',
+})
 
 const siteUrl = 'https://jo-takahashi.me'
 
@@ -19,7 +27,7 @@ export const metadata: Metadata = {
     locale: 'ja_JP',
     siteName: 'Jo Takahashi | Portfolio',
   },
-  twitter: { card: 'summary' },
+  twitter: { card: 'summary_large_image' },
   robots: {
     index: true,
     follow: true,
@@ -43,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ja">
+    <html lang="ja" className={fontSans.variable}>
       <body>
         {children}
         <script

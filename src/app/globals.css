@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* Apply Noto Sans JP site-wide.
+   react-notion-x's styles.css is imported AFTER this file and redefines
+   :root { --notion-font }, which would override an equal-specificity :root here.
+   Use html:root (higher specificity) so our font wins regardless of import order. */
+html:root {
+  --notion-font: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
 /* react-notion-x table fix:
    The table is set to width:100vw by JS and align-self:center by CSS. When centered,
    it overflows to the left into negative x coordinates — browsers cannot scroll there,
