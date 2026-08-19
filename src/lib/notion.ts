@@ -2,7 +2,16 @@ import { NotionAPI } from 'notion-client'
 import { cache } from 'react'
 import type { ExtendedRecordMap } from 'notion-types'
 
-const notion = new NotionAPI()
+// Notion は node/undici のデフォルト User-Agent を持つリクエストを 403 で拒否する
+// ようになった（2026-08 頃）。ブラウザ相当の UA を送って公開 API を通す。
+const notion = new NotionAPI({
+  ofetchOptions: {
+    headers: {
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+    },
+  },
+})
 
 function unwrap(record: unknown): Record<string, unknown> | null {
   if (!record || typeof record !== 'object') return null

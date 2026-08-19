@@ -45,7 +45,7 @@ npm run lint     # ESLint
 Notion (CMS) ──notion-client──▶ getPage() ──applySorts()──▶ NotionPage ──▶ NotionRenderer
 ```
 
-- **データ取得**: `notion-client` の非公式 API でページデータ (`ExtendedRecordMap`) を取得
+- **データ取得**: `notion-client` の非公式 API でページデータ (`ExtendedRecordMap`) を取得。`NotionAPI` にはブラウザ相当の User-Agent を必ず渡す（後述「User-Agent (Notion 403 対策)」参照）
 - **ソート**: `getPage()` 内で `applySorts()` を呼び、`collection_query[*][*].collection_group_results.blockIds` を `query2.sort` の設定に従いソートしてから返す
 - **キャッシュ**: `export const revalidate = 3600` — ISR で1時間ごと再生成。`getPage` は `React.cache` でラップ済み（同一リクエスト内で `generateMetadata` とページコンポーネントが API コールを共有）
 - **ルーティング**: `/` → ROOT_PAGE_ID、`/[pageId]` → 任意のページ（pageId はハイフンなし）
@@ -150,6 +150,20 @@ Gallery/Table ビューで各アイテムの左に 📃 アイコンが表示さ
 - **Bar/Ring 数値フォーマット非対応**: `collection.js` の `switch(schema.number_format)` に `bar`/`ring` のケースがなく、生の数値テキストとして描画される
 
 ## Notion
+
+### User-Agent (Notion 403 対策)
+
+**削除・変更禁止。**
+
+`src/lib/notion.ts` の `NotionAPI` インスタンスは `ofetchOptions.headers['User-Agent']` にブラウザ相当の UA を設定している。
+
+**根本原因:** Notion は 2026-08 頃から、`/api/v3/loadPageChunk` 等の非公式 API に対し **node/undici のデフォルト User-Agent を持つリクエストを 403 Forbidden で拒否する**ようになった。ページの公開共有設定は生きたまま、`notion-client`（内部で `ofetch` = undici を使用）経由の取得だけが全ページ 403 になる。
+
+**症状:** ある日突然サブページが全て 404 になる。トップページは ISR の古いキャッシュで延命されて 200 に見えるため気づきにくい（`sitemap.xml` の `lastmod` が更新されず、サブページも列挙されなくなるのが判別ポイント）。`getPage()` が 403 で throw → `[pageId]/page.tsx` の `catch { notFound() }` → 404、という連鎖。
+
+**修正:** `new NotionAPI({ ofetchOptions: { headers: { 'User-Agent': 'Mozilla/5.0 ... Chrome/xxx Safari/537.36' } } })`。空 UA でも 200 は返るが、将来のブロック強化に備えブラウザ UA を維持する。
+
+**切り分けコマンド:** 生 curl（`curl/x` UA）で `loadPageChunk` が 200 を返せばページ自体は公開されている。node のデフォルト fetch で 403・ブラウザ UA 指定で 200 なら本件。
 
 - `ROOT_PAGE_ID = '1cc0427942bc80e0ad0df75681e18701'` — メインページ（Full width 有効）
 - Full width ページには `.notion-full-width` クラスが付与され `--notion-max-width` が `calc(min(1920px, 98vw))` になる
