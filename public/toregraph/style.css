@@ -1,0 +1,108 @@
+:root {
+  --accent: #0a66d6;
+  --text: #1a1a1a;
+  --muted: #666;
+  --bg: #ffffff;
+  --line: #e6e6e6;
+  --chip: #f0f2f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+    "Noto Sans JP", "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.75;
+  -webkit-text-size-adjust: 100%;
+}
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+}
+
+.name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.tagline {
+  color: var(--muted);
+  margin: 4px 0 28px;
+}
+
+a {
+  color: var(--accent);
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin: 0 0 4px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 40px 0 8px;
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin: 24px 0 2px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 11px 20px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn.secondary {
+  background: var(--chip);
+  color: var(--text);
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 48px 0;
+}
+
+ul {
+  padding-left: 1.2em;
+}
+
+footer {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 56px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
