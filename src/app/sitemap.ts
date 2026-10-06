@@ -4,6 +4,13 @@ import { ROOT_PAGE_ID } from '@/lib/constants'
 
 export const revalidate = 3600
 
+// public/ に置いた静的ページ（Notion で管理していないページ）
+const STATIC_PAGES = [
+  { path: '/toregraph', priority: 0.8 },
+  { path: '/toregraph/privacy.html', priority: 0.3 },
+  { path: '/toregraph/support.html', priority: 0.3 },
+]
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const recordMap = await getPage(ROOT_PAGE_ID)
   const base = 'https://jo-takahashi.me'
@@ -23,6 +30,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
+    })),
+    ...STATIC_PAGES.map(({ path, priority }) => ({
+      url: `${base}${path}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority,
     })),
   ]
 }

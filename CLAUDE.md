@@ -177,9 +177,19 @@ Gallery/Table ビューで各アイテムの左に 📃 アイコンが表示さ
 - **title**: トップは `高橋青 (Jo Takahashi)`、個別ページは `%s | Jo Takahashi`（`%s` は `getPageTitle(recordMap)` で取得した Notion のページタイトル）
   - 「高橋青」で検索ヒットさせる目的で title に漢字名を含めている。会社名は誤ヒット回避のため意図的に含めない
 - **JSON-LD**: `layout.tsx` の `<body>` 末尾に Person スキーマを出力（`高橋青` / `Jo Takahashi`）
-- **sitemap**: `src/app/sitemap.ts` — ROOT_PAGE_ID の recordMap から page ブロックを列挙して自動生成
+- **sitemap**: `src/app/sitemap.ts` — ROOT_PAGE_ID の recordMap から page ブロックを列挙して自動生成。`public/` の静的ページは `STATIC_PAGES` に手で列挙する
 - **robots**: `src/app/robots.ts` — 全クロール許可、sitemap URL を明示
 - **Search Console**: `jo-takahashi.me` を**ドメインプロパティ**で登録（www / 非 www 両方カバー）。sitemap 送信済み
+
+## 静的ページ（public/）
+
+Notion とは別に、`public/` のファイルをそのまま配信している。
+
+- `public/app-ads.txt`: AdMob の app-ads.txt（ドメインのルートで配信する必要がある）。同じ AdMob アカウントのアプリはこの1ファイルで共通
+- `public/toregraph/`: iOS アプリ「トレグラフ」の製品ページ・プライバシーポリシー・サポート。CSS はインラインで、リンクは `/toregraph/...` の絶対パスにする
+  - 正規 URL は `https://jo-takahashi.me/toregraph`（末尾の `/` 付きは 308 でこちらへリダイレクト）
+  - `og.png`（1200×630）は SNS で共有したときのプレビュー画像。元の HTML と書き出しスクリプトは toregraph リポジトリの `assets/store/og.html`・`assets/store/export.sh`
+  - ページを足したら `src/app/sitemap.ts` の `STATIC_PAGES` にも足す
 
 ## Analytics & Speed Insights
 
